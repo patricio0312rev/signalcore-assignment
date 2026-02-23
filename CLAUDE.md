@@ -76,7 +76,39 @@ src/
 
 ## Key Decisions
 
-- **No LLM API calls** — chat recommendations are hardcoded scenarios matched by keyword
+- **No LLM API calls** — chat recommendations are hardcoded scenarios matched by keyword but simulate the use of LLM's using an env var
 - **Deterministic scoring** — same evidence input always produces same scores
 - **Static data** — all evidence/vendor/requirement data lives in JSON files, served via API routes
 - **Client-side interactivity** — priority sliders recalculate scores in the browser
+
+## Git Conventions
+
+- Commit messages: `type: description` (feat, fix, test, docs, refactor, chore)
+- Keep commits atomic — one feature/fix per commit
+- Branch: work directly on `main` (time-constrained assignment)
+
+## Component Patterns
+
+- Props defined as `interface ComponentNameProps { ... }` in a types.d.ts file in the same folder of the component
+- Use `cn()` helper (clsx + twMerge) for conditional classes
+- Use debouncing for inputs related to search or chat
+- Event handlers named `handleX` (e.g., `handleCellClick`)
+- Loading/empty/error states handled in every component that fetches data
+- No `useEffect` for derived state — use `useMemo` instead
+- Do not create components of more than 200 lines
+- One component per file
+- Components should go under the components folder and then be grouped by categories like buttons, inputs, and so on. Sections (the ones that implement reusable components) should also be part of this folder and the pages use the sections and components as needed
+
+## Styling
+
+- Tailwind v4: use `@import "tailwindcss"` in CSS, NOT `@tailwind` directives
+- Design tokens defined as CSS variables in `app/globals.css`
+- No inline `style={}` — always use Tailwind classes
+- Spacing system: stick to 4px increments (p-1, p-2, p-4, etc.)
+
+## Do NOT
+
+- Do NOT make real API calls to any LLM provider, simulate them
+- Do NOT create `.env` files or require API keys to run, but create the `.env.example` in case we were using one
+- Do NOT use `"use client"` unless the component genuinely needs interactivity
+- Do NOT over-abstract — this is a 3-hour prototype, not an enterprise codebase
