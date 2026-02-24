@@ -289,7 +289,8 @@ describe('parseGitHubRepo', () => {
   });
 
   it('returns null publishedAt when pushed_at is missing', () => {
-    const { pushed_at: _, ...repoWithoutPushedAt } = repoFixture;
+    const repoWithoutPushedAt = { ...repoFixture };
+    delete (repoWithoutPushedAt as Record<string, unknown>).pushed_at;
     const result = parseGitHubRepo(repoWithoutPushedAt);
     expect(result.publishedAt).toBeNull();
   });
