@@ -37,7 +37,7 @@ export function PrioritySliders({
         </div>
         <button
           onClick={onReset}
-          className="flex items-center gap-1.5 rounded-md border border-border bg-background/50 px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="flex items-center gap-1.5 rounded-md border border-border bg-background/50 px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
         >
           <RotateCcw className="h-3 w-3" />
           Reset
