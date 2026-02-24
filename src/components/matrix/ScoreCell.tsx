@@ -15,26 +15,9 @@ interface ScoreCellProps {
   onClick: () => void;
 }
 
-const widthByDecile: Record<number, string> = {
-  0: 'w-0',
-  1: 'w-[10%]',
-  2: 'w-[20%]',
-  3: 'w-[30%]',
-  4: 'w-[40%]',
-  5: 'w-[50%]',
-  6: 'w-[60%]',
-  7: 'w-[70%]',
-  8: 'w-[80%]',
-  9: 'w-[90%]',
-  10: 'w-full',
-};
-
-function getBarWidth(score: number): string {
-  const decile = Math.min(10, Math.max(0, Math.round(score)));
-  return widthByDecile[decile] ?? 'w-0';
-}
-
 export function ScoreCell({ score, isHighest, onClick }: ScoreCellProps) {
+  const widthPercent = `${Math.min(100, Math.max(0, score.score * 10))}%`;
+
   return (
     <TooltipProvider>
       <Tooltip>
@@ -58,10 +41,10 @@ export function ScoreCell({ score, isHighest, onClick }: ScoreCellProps) {
             <div className="h-1.5 w-16 rounded-full bg-white/10 overflow-hidden">
               <div
                 className={cn(
-                  'h-full rounded-full',
-                  isHighest ? 'bg-primary' : 'bg-muted-foreground/50',
-                  getBarWidth(score.score)
+                  'h-full rounded-full transition-all duration-700 ease-out',
+                  isHighest ? 'bg-primary' : 'bg-muted-foreground/50'
                 )}
+                style={{ width: widthPercent }}
               />
             </div>
 
