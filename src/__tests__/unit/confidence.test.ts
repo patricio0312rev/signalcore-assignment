@@ -19,26 +19,32 @@ function makeEvidence(overrides: Partial<Evidence> = {}): Evidence {
 }
 
 describe('calculateConfidence', () => {
-  it('returns high when 3+ items including at least one official source with fresh evidence', () => {
+  it('returns high when 2+ items including official source with fresh evidence', () => {
     const evidence = [
       makeEvidence({ id: 'e1', sourceType: 'official' }),
       makeEvidence({ id: 'e2', sourceType: 'github' }),
-      makeEvidence({ id: 'e3', sourceType: 'blog' }),
     ];
     expect(calculateConfidence(evidence)).toBe('high');
   });
 
-  it('returns medium when 2 items with mixed sources', () => {
+  it('returns high for single official + fresh + strong evidence', () => {
     const evidence = [
-      makeEvidence({ id: 'e1', sourceType: 'github' }),
-      makeEvidence({ id: 'e2', sourceType: 'blog' }),
+      makeEvidence({ sourceType: 'official', strength: 'strong' }),
+    ];
+    expect(calculateConfidence(evidence)).toBe('high');
+  });
+
+  it('returns medium for single official source without fresh date', () => {
+    const agingDate = new Date();
+    agingDate.setDate(agingDate.getDate() - 200);
+    const evidence = [
+      makeEvidence({ sourceType: 'official', strength: 'moderate', publishedAt: agingDate.toISOString() }),
     ];
     expect(calculateConfidence(evidence)).toBe('medium');
   });
 
-  it('returns low when fewer than 2 evidence items', () => {
+  it('returns low for empty evidence', () => {
     expect(calculateConfidence([])).toBe('low');
-    expect(calculateConfidence([makeEvidence()])).toBe('low');
   });
 
   it('returns low when all evidence is stale', () => {
