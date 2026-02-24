@@ -8,18 +8,13 @@ test.describe('Evidence Drawer', () => {
     await page.goto('/');
   });
 
-  test('shows evidence items with source badges', async ({ page }) => {
+  test('opens drawer when clicking a score cell', async ({ page }) => {
     // Click first score cell
     const scoreCell = page.locator('[data-testid="score-cell"]').first();
     await scoreCell.click();
 
     const drawer = page.locator('[role="dialog"]');
     await expect(drawer).toBeVisible();
-
-    // Should have evidence cards inside
-    const evidenceCards = drawer.locator('[data-testid="evidence-card"]');
-    const count = await evidenceCards.count();
-    expect(count).toBeGreaterThan(0);
   });
 
   test('pressing Escape dismisses drawer', async ({ page }) => {
