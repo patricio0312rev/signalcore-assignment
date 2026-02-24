@@ -50,6 +50,7 @@
   --color-vendor-langsmith: oklch(0.588 0.185 248);
   --color-vendor-langfuse: oklch(0.696 0.17 162.48);
   --color-vendor-braintrust: oklch(0.645 0.246 16.439);
+  --color-vendor-posthog: oklch(0.7 0.19 295);
 }
 
 :root {
