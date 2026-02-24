@@ -45,12 +45,17 @@ describe('Scoring Consistency', () => {
   });
 
   it('removing evidence decreases evidence count and lowers confidence', () => {
+    const agingDate = new Date();
+    agingDate.setDate(agingDate.getDate() - 200);
+
     const fullEvidence = [
       makeEvidence({ id: 'e1', vendorId: 'v1', requirementId: 'r1', sourceType: 'official' }),
       makeEvidence({ id: 'e2', vendorId: 'v1', requirementId: 'r1', sourceType: 'github' }),
       makeEvidence({ id: 'e3', vendorId: 'v1', requirementId: 'r1', sourceType: 'blog' }),
     ];
-    const partialEvidence = [fullEvidence[0]];
+    const partialEvidence = [
+      makeEvidence({ id: 'e2', vendorId: 'v1', requirementId: 'r1', sourceType: 'community', strength: 'weak', publishedAt: agingDate.toISOString() }),
+    ];
 
     const fullScore = calculateScore('v1', 'r1', fullEvidence);
     const partialScore = calculateScore('v1', 'r1', partialEvidence);
