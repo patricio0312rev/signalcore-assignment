@@ -43,6 +43,7 @@ next-env.d.ts
 # project docs (local only)
 PLAN.md
 ASSIGNMENT.md
+FEATURES_CHECKLIST.md
 
 # bv (beads viewer) local config and caches
 .bv/
