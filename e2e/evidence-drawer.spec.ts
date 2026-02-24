@@ -2,6 +2,9 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Evidence Drawer', () => {
   test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('signalcore_walkthrough_seen', 'true');
+    });
     await page.goto('/');
   });
 
