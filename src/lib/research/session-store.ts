@@ -5,10 +5,21 @@ export interface StoredSession extends ResearchSession {
   createdAt: number;
 }
 
-const sessions = new Map<string, StoredSession>();
 const SESSION_TTL = 30 * 60 * 1000; // 30 minutes
 
+// Use globalThis to persist across hot reloads and module instances in dev
+const globalKey = '__signalcore_sessions__' as const;
+const globalStore = globalThis as unknown as Record<string, Map<string, StoredSession>>;
+
+function getSessions(): Map<string, StoredSession> {
+  if (!globalStore[globalKey]) {
+    globalStore[globalKey] = new Map<string, StoredSession>();
+  }
+  return globalStore[globalKey];
+}
+
 function cleanupExpired(): void {
+  const sessions = getSessions();
   const now = Date.now();
   for (const [id, session] of sessions) {
     if (now - session.createdAt > SESSION_TTL) {
@@ -33,20 +44,20 @@ export function createSession(): StoredSession {
     createdAt: Date.now(),
   };
 
-  sessions.set(id, session);
+  getSessions().set(id, session);
   return session;
 }
 
 export function getSession(id: string): StoredSession | null {
   cleanupExpired();
 
-  const session = sessions.get(id);
+  const session = getSessions().get(id);
   if (!session) {
     return null;
   }
 
   if (Date.now() - session.createdAt > SESSION_TTL) {
-    sessions.delete(id);
+    getSessions().delete(id);
     return null;
   }
 
@@ -59,6 +70,7 @@ export function updateSession(
 ): void {
   cleanupExpired();
 
+  const sessions = getSessions();
   const session = sessions.get(id);
   if (!session) {
     return;
