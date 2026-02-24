@@ -62,6 +62,8 @@ export function ChatPanel({ vendors }: ChatPanelProps) {
           body: JSON.stringify({ message: trimmed }),
         });
 
+        if (!res.ok) throw new Error(`API error: ${res.status}`);
+
         const data = (await res.json()) as {
           response: string;
           recommendedVendorId: string | null;
@@ -111,6 +113,7 @@ export function ChatPanel({ vendors }: ChatPanelProps) {
       {!open && (
         <button
           onClick={() => setOpen(true)}
+          data-testid="chat-toggle"
           className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-lg hover:bg-primary/90 transition-colors"
         >
           <MessageSquare className="h-5 w-5" />
@@ -119,6 +122,7 @@ export function ChatPanel({ vendors }: ChatPanelProps) {
 
       {/* Chat panel */}
       <div
+        data-testid="chat-panel"
         className={cn(
           'fixed bottom-6 right-6 z-50 flex w-[400px] flex-col rounded-xl border border-border bg-card shadow-2xl transition-all duration-300',
           open
