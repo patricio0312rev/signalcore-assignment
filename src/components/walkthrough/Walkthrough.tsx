@@ -210,17 +210,14 @@ export function Walkthrough() {
           transition={{ duration: 0.25 }}
           className="fixed inset-0 z-[9999]"
         >
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black/70" />
-
-          {/* Spotlight cutout */}
-          {spotlight && (
+          {/* Dark overlay — solid when no spotlight, box-shadow cutout when spotlight */}
+          {spotlight ? (
             <motion.div
               key={`spotlight-${step.id}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.1 }}
-              className="absolute z-[1] pointer-events-none"
+              className="absolute pointer-events-none"
               style={{
                 top: spotlight.top,
                 left: spotlight.left,
@@ -228,9 +225,10 @@ export function Walkthrough() {
                 height: spotlight.height,
                 borderRadius: SPOTLIGHT_RADIUS,
                 boxShadow: '0 0 0 9999px rgba(0,0,0,0.7)',
-                background: 'transparent',
               }}
             />
+          ) : (
+            <div className="absolute inset-0 bg-black/70" />
           )}
 
           {/* Card */}
