@@ -16,12 +16,14 @@ const VENDOR_BG: Record<string, string> = {
   'chart-1': 'bg-[oklch(0.588_0.185_248)]',
   'chart-2': 'bg-[oklch(0.696_0.17_162.48)]',
   'chart-3': 'bg-[oklch(0.645_0.246_16.439)]',
+  'chart-4': 'bg-[oklch(0.7_0.19_295)]',
 };
 
 const VENDOR_BORDER: Record<string, string> = {
   'chart-1': 'border-[oklch(0.588_0.185_248)]',
   'chart-2': 'border-[oklch(0.696_0.17_162.48)]',
   'chart-3': 'border-[oklch(0.645_0.246_16.439)]',
+  'chart-4': 'border-[oklch(0.7_0.19_295)]',
 };
 
 export function VendorToggleChips({
