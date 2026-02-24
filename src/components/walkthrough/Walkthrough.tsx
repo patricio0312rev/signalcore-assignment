@@ -139,6 +139,15 @@ export function Walkthrough() {
     }
   }, []);
 
+  // lock body scroll while walkthrough is active
+  useEffect(() => {
+    if (!active) return;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [active]);
+
   // listen for custom event from header help button
   useEffect(() => {
     const handler = () => start();
