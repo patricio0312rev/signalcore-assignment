@@ -42,6 +42,8 @@ next-env.d.ts
 
 # project docs (local only)
 PLAN.md
+PLAN-2.md
+docs/PLAN-2.md
 ASSIGNMENT.md
 FEATURES_CHECKLIST.md
 
