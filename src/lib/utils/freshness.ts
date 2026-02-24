@@ -1,8 +1,8 @@
-import { differenceInDays } from 'date-fns';
+import { differenceInDays, parseISO } from 'date-fns';
 import type { FreshnessLevel } from '@/lib/scoring/types';
 
 export function getFreshnessLevel(dateStr: string): FreshnessLevel {
-  const days = differenceInDays(new Date(), new Date(dateStr));
+  const days = differenceInDays(new Date(), parseISO(dateStr));
 
   if (days < 90) return 'fresh';
   if (days <= 365) return 'aging';
