@@ -114,7 +114,7 @@ export function ChatPanel({ vendors }: ChatPanelProps) {
         <button
           onClick={() => setOpen(true)}
           data-testid="chat-toggle"
-          className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-lg hover:bg-primary/90 transition-colors"
+          className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-lg hover:bg-primary/90 transition-colors cursor-pointer"
         >
           <MessageSquare className="h-5 w-5" />
         </button>
@@ -143,7 +143,7 @@ export function ChatPanel({ vendors }: ChatPanelProps) {
           </div>
           <button
             onClick={() => setOpen(false)}
-            className="rounded-md p-1 text-muted-foreground hover:text-foreground transition-colors"
+            className="rounded-md p-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
           >
             <X className="h-4 w-4" />
           </button>
@@ -215,7 +215,7 @@ export function ChatPanel({ vendors }: ChatPanelProps) {
             <button
               onClick={() => handleSend(input)}
               disabled={!input.trim() || loading}
-              className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-white disabled:opacity-40 hover:bg-primary/90 transition-colors"
+              className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-white disabled:opacity-40 hover:bg-primary/90 transition-colors cursor-pointer"
             >
               <Send className="h-3.5 w-3.5" />
             </button>
