@@ -17,17 +17,17 @@ Build the data layer, scoring engine, comparison matrix UI, and evidence drawer 
 
 ## Mockup Color Palette (dark mode)
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| background | `#0f172a` | Page background |
-| card / surface | `#1e293b` | Card surfaces |
-| border | `#334155` | Borders |
-| primary | `#137fec` | Accent, links, highlights |
-| muted-foreground | `#94a3b8` | Secondary text |
-| foreground | `#f8fafc` | Primary text |
-| chart-1 (LangSmith) | `#137fec` | Blue |
-| chart-2 (Langfuse) | `#10b981` | Green |
-| chart-3 (Braintrust) | `#f43f5e` | Rose |
+| Token                | Value     | Usage                     |
+| -------------------- | --------- | ------------------------- |
+| background           | `#0f172a` | Page background           |
+| card / surface       | `#1e293b` | Card surfaces             |
+| border               | `#334155` | Borders                   |
+| primary              | `#137fec` | Accent, links, highlights |
+| muted-foreground     | `#94a3b8` | Secondary text            |
+| foreground           | `#f8fafc` | Primary text              |
+| chart-1 (LangSmith)  | `#137fec` | Blue                      |
+| chart-2 (Langfuse)   | `#10b981` | Green                     |
+| chart-3 (Braintrust) | `#f43f5e` | Rose                      |
 
 ## Feature 1: Data Layer & Types
 
