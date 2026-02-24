@@ -1,6 +1,6 @@
 'use client';
 
-import { Hexagon, Search, Bell } from 'lucide-react';
+import { Hexagon, Search, HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = ['Dashboard', 'Vendors', 'Requirements', 'Settings'] as const;
@@ -58,9 +58,12 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
             </kbd>
           </div>
 
-          <button className="relative rounded-md p-1.5 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-            <Bell className="h-4 w-4" />
-            <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-primary" />
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('signalcore:start-walkthrough'))}
+            className="relative rounded-md p-1.5 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+            aria-label="Help tour"
+          >
+            <HelpCircle className="h-4 w-4" />
           </button>
 
           <div className="h-7 w-7 rounded-full bg-gradient-to-br from-primary to-purple-500" />
