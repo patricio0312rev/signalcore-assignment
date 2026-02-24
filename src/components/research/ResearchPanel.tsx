@@ -48,9 +48,10 @@ export function ResearchPanel({ onResearchComplete }: ResearchPanelProps) {
   }, []);
 
   return (
-    <div data-walkthrough="research-panel" className="rounded-lg border border-border bg-card">
+    <div className="rounded-lg border border-border bg-card">
       {/* Header */}
       <div
+        data-walkthrough="research-panel"
         className="flex cursor-pointer items-center justify-between px-4 py-3"
         onClick={toggleCollapse}
       >
