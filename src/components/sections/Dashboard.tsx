@@ -7,7 +7,10 @@ import type { VendorScore, Requirement, Evidence, Score } from '@/lib/scoring/ty
 import { PRIORITY_WEIGHTS } from '@/lib/scoring/weights';
 import { recalculateWithWeights } from '@/lib/scoring/recalculate';
 import { generateMarkdownReport, copyToClipboard, downloadMarkdown } from '@/lib/utils/export';
+import { useVendorVisibility } from '@/lib/hooks/useVendorVisibility';
+import { AnimatedSection } from '@/components/layout/AnimatedSection';
 import { VendorScoreCard } from '@/components/vendors/VendorScoreCard';
+import { VendorToggleChips } from '@/components/vendors/VendorToggleChips';
 import { ComparisonMatrix } from '@/components/matrix/ComparisonMatrix';
 import { EvidenceDrawer } from '@/components/evidence/EvidenceDrawer';
 import { VendorRadarChart } from '@/components/charts/VendorRadarChart';
@@ -39,6 +42,9 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
   const defaultWeights = useMemo(() => getDefaultWeights(requirements), [requirements]);
   const [customWeights, setCustomWeights] = useState<Record<string, number>>(defaultWeights);
 
+  const allVendors = useMemo(() => vendorScores.map((vs) => vs.vendor), [vendorScores]);
+  const { visibleIds, toggle, resetAll, canToggle } = useVendorVisibility(allVendors);
+
   const [drawer, setDrawer] = useState<DrawerState>({
     open: false,
     vendorId: null,
@@ -48,6 +54,25 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
   const adjustedScores = useMemo(
     () => recalculateWithWeights(vendorScores, customWeights),
     [vendorScores, customWeights]
+  );
+
+  const visibleScores = useMemo(
+    () => adjustedScores.filter((vs) => visibleIds.has(vs.vendor.id)),
+    [adjustedScores, visibleIds]
+  );
+
+  const handleToggleVendor = useCallback(
+    (vendorId: string) => {
+      const wasVisible = visibleIds.has(vendorId);
+      toggle(vendorId);
+      if (wasVisible) {
+        const vendor = allVendors.find((v) => v.id === vendorId);
+        if (vendor) {
+          sileo.info({ title: `${vendor.name} hidden`, description: 'Click Reset to show all vendors' });
+        }
+      }
+    },
+    [toggle, visibleIds, allVendors]
   );
 
   const handleWeightChange = useCallback((requirementId: string, value: number) => {
@@ -60,7 +85,7 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
 
   const handleExportCopy = useCallback(() => {
     const md = generateMarkdownReport({
-      vendorScores: adjustedScores,
+      vendorScores: visibleScores,
       requirements,
       evidence,
       customWeights,
@@ -68,11 +93,11 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
     copyToClipboard(md).then(() => {
       sileo.success({ title: 'Report copied to clipboard' });
     });
-  }, [adjustedScores, requirements, evidence, customWeights]);
+  }, [visibleScores, requirements, evidence, customWeights]);
 
   const handleExportDownload = useCallback(() => {
     const md = generateMarkdownReport({
-      vendorScores: adjustedScores,
+      vendorScores: visibleScores,
       requirements,
       evidence,
       customWeights,
@@ -80,7 +105,7 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
     const date = new Date().toISOString().split('T')[0];
     downloadMarkdown(md, `signalcore-report-${date}.md`);
     sileo.success({ title: 'Report downloaded' });
-  }, [adjustedScores, requirements, evidence, customWeights]);
+  }, [visibleScores, requirements, evidence, customWeights]);
 
   const handleCellClick = (vendorId: string, requirementId: string) => {
     setDrawer({ open: true, vendorId, requirementId });
@@ -113,67 +138,86 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
   return (
     <div className="mx-auto max-w-[1400px] space-y-6 p-6 md:p-8">
       {/* Page Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div>
-          <div className="mb-1 flex items-center gap-2 text-sm font-medium text-primary">
-            <FolderOpen className="size-4" />
-            <span>Evaluation Projects</span>
-            <span className="text-muted-foreground">/</span>
-            <span>LLM Ops</span>
+      <AnimatedSection>
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <div className="mb-1 flex items-center gap-2 text-sm font-medium text-primary">
+              <FolderOpen className="size-4" />
+              <span>Evaluation Projects</span>
+              <span className="text-muted-foreground">/</span>
+              <span>LLM Ops</span>
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight">
+              Vendor Evaluation: LLM Ops Tools
+            </h1>
+            <p className="mt-1 text-muted-foreground">
+              Comparative analysis based on {requirements.length} weighted requirements.
+            </p>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Vendor Evaluation: LLM Ops Tools
-          </h1>
-          <p className="mt-1 text-muted-foreground">
-            Comparative analysis based on {requirements.length} weighted requirements.
-          </p>
+          <div className="flex gap-3">
+            <Button variant="outline" size="sm" className="gap-2" onClick={handleExportCopy}>
+              <Copy className="size-4" />
+              Copy Report
+            </Button>
+            <Button variant="outline" size="sm" className="gap-2" onClick={handleExportDownload}>
+              <FileDown className="size-4" />
+              Download .md
+            </Button>
+          </div>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" size="sm" className="gap-2" onClick={handleExportCopy}>
-            <Copy className="size-4" />
-            Copy Report
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2" onClick={handleExportDownload}>
-            <FileDown className="size-4" />
-            Download .md
-          </Button>
-        </div>
-      </div>
+      </AnimatedSection>
+
+      {/* Vendor Toggle Chips */}
+      <AnimatedSection delay={0.05}>
+        <VendorToggleChips
+          vendors={allVendors}
+          visibleIds={visibleIds}
+          onToggle={handleToggleVendor}
+          onReset={resetAll}
+          canToggle={canToggle}
+        />
+      </AnimatedSection>
 
       {/* Vendor Score Cards */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {adjustedScores.map((vs, index) => (
-          <VendorScoreCard key={vs.vendor.id} vendorScore={vs} rank={index + 1} />
-        ))}
-      </div>
+      <AnimatedSection delay={0.1}>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {visibleScores.map((vs, index) => (
+            <VendorScoreCard key={vs.vendor.id} vendorScore={vs} rank={index + 1} />
+          ))}
+        </div>
+      </AnimatedSection>
 
       {/* Matrix + Radar Chart */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <ComparisonMatrix
-            vendorScores={adjustedScores}
-            requirements={requirements}
-            onCellClick={handleCellClick}
-          />
+      <AnimatedSection delay={0.2}>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <ComparisonMatrix
+              vendorScores={visibleScores}
+              requirements={requirements}
+              onCellClick={handleCellClick}
+            />
+          </div>
+          <div className="flex flex-col gap-6">
+            <VendorRadarChart
+              vendorScores={visibleScores}
+              requirements={requirements}
+            />
+          </div>
         </div>
-        <div className="flex flex-col gap-6">
-          <VendorRadarChart
-            vendorScores={adjustedScores}
-            requirements={requirements}
-          />
-        </div>
-      </div>
+      </AnimatedSection>
 
       {/* Priority Sliders */}
-      <PrioritySliders
-        requirements={requirements}
-        weights={customWeights}
-        onWeightChange={handleWeightChange}
-        onReset={handleResetWeights}
-      />
+      <AnimatedSection delay={0.3}>
+        <PrioritySliders
+          requirements={requirements}
+          weights={customWeights}
+          onWeightChange={handleWeightChange}
+          onReset={handleResetWeights}
+        />
+      </AnimatedSection>
 
       {/* Chat Panel */}
-      <ChatPanel vendors={adjustedScores.map((vs) => vs.vendor)} />
+      <ChatPanel vendors={allVendors} />
 
       {/* Evidence Drawer */}
       <EvidenceDrawer
