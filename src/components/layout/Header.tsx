@@ -1,11 +1,20 @@
+'use client';
+
 import { Hexagon, Search, Bell } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-const navItems = ['Dashboard', 'Vendors', 'Requirements', 'Settings'];
+const navItems = ['Dashboard', 'Vendors', 'Requirements', 'Settings'] as const;
+export type TabName = (typeof navItems)[number];
 
-export function Header() {
+interface HeaderProps {
+  activeTab: TabName;
+  onTabChange: (tab: TabName) => void;
+}
+
+export function Header({ activeTab, onTabChange }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
+      <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 sm:px-6 md:px-8">
         {/* Left: Logo + Title */}
         <div className="flex items-center gap-2.5">
           <Hexagon className="h-5 w-5 text-primary" />
@@ -17,16 +26,18 @@ export function Header() {
           </div>
         </div>
 
-        {/* Center: Nav Tabs */}
+        {/* Center: Nav Tabs (desktop) */}
         <nav className="hidden md:flex items-center gap-1 rounded-full bg-card/60 border border-border px-1.5 py-1">
           {navItems.map((item) => (
             <button
               key={item}
-              className={
-                item === 'Dashboard'
-                  ? 'rounded-full bg-primary/15 px-3 py-1 text-xs font-medium text-primary'
-                  : 'rounded-full px-3 py-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors'
-              }
+              onClick={() => onTabChange(item)}
+              className={cn(
+                'rounded-full px-3 py-1 text-xs font-medium transition-colors cursor-pointer',
+                item === activeTab
+                  ? 'bg-primary/15 text-primary'
+                  : 'text-muted-foreground hover:text-foreground'
+              )}
             >
               {item}
             </button>
@@ -47,13 +58,31 @@ export function Header() {
             </kbd>
           </div>
 
-          <button className="relative rounded-md p-1.5 text-muted-foreground hover:text-foreground transition-colors">
+          <button className="relative rounded-md p-1.5 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
             <Bell className="h-4 w-4" />
             <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-primary" />
           </button>
 
           <div className="h-7 w-7 rounded-full bg-gradient-to-br from-primary to-purple-500" />
         </div>
+      </div>
+
+      {/* Mobile Nav */}
+      <div className="flex md:hidden overflow-x-auto border-t border-border px-4 custom-scrollbar">
+        {navItems.map((item) => (
+          <button
+            key={item}
+            onClick={() => onTabChange(item)}
+            className={cn(
+              'whitespace-nowrap px-3 py-2 text-xs font-medium transition-colors cursor-pointer border-b-2',
+              item === activeTab
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
+            )}
+          >
+            {item}
+          </button>
+        ))}
       </div>
     </header>
   );
