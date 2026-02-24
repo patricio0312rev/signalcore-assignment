@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: "SignalCore — Vendor Intelligence",
   description:
     "Compare LLM observability vendors with evidence-backed scoring and recommendations.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -30,10 +33,8 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
       >
-        <TooltipProvider delayDuration={300}>
-          {children}
-        </TooltipProvider>
-        <Toaster position="top-center" theme="dark" />
+        <TooltipProvider delayDuration={300}>{children}</TooltipProvider>
+        <Toaster position="top-center" theme="light" />
       </body>
     </html>
   );
