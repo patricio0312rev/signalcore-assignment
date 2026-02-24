@@ -6,7 +6,7 @@ function makeEvidence(overrides: Partial<Evidence> = {}): Evidence {
   return {
     id: 'e1',
     vendorId: 'langsmith',
-    requirementId: 'tracing',
+    requirementId: 'framework-agnostic',
     claim: 'Test claim',
     snippet: 'Test snippet',
     sourceUrl: 'https://example.com',
@@ -69,7 +69,7 @@ describe('calculateRequirementScore', () => {
 
 describe('calculateScore', () => {
   it('returns score 0 and confidence low for missing evidence', () => {
-    const result = calculateScore('langsmith', 'tracing', []);
+    const result = calculateScore('langsmith', 'framework-agnostic', []);
     expect(result.score).toBe(0);
     expect(result.confidence).toBe('low');
     expect(result.evidenceCount).toBe(0);
@@ -77,12 +77,12 @@ describe('calculateScore', () => {
 
   it('filters evidence by vendor and requirement', () => {
     const evidence = [
-      makeEvidence({ vendorId: 'langsmith', requirementId: 'tracing' }),
-      makeEvidence({ id: 'e2', vendorId: 'langfuse', requirementId: 'tracing' }),
-      makeEvidence({ id: 'e3', vendorId: 'langsmith', requirementId: 'evals' }),
+      makeEvidence({ vendorId: 'langsmith', requirementId: 'framework-agnostic' }),
+      makeEvidence({ id: 'e2', vendorId: 'langfuse', requirementId: 'framework-agnostic' }),
+      makeEvidence({ id: 'e3', vendorId: 'langsmith', requirementId: 'eval-framework' }),
     ];
 
-    const result = calculateScore('langsmith', 'tracing', evidence);
+    const result = calculateScore('langsmith', 'framework-agnostic', evidence);
     expect(result.evidenceCount).toBe(1);
   });
 });
