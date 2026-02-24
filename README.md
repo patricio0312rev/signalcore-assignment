@@ -5,8 +5,8 @@ A vendor research and evaluation tool for comparing LLM observability platforms.
 ## Quick Start
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the dashboard.
@@ -123,13 +123,13 @@ src/
 
 ```bash
 # Unit + AI tests
-npm run test
+pnpm test
 
 # E2E tests
 npx playwright test
 
 # Coverage report
-npm run test:coverage
+pnpm test -- --coverage
 ```
 
 ### Test Categories
