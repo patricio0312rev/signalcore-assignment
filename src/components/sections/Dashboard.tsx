@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { FolderOpen, Copy, FileDown } from 'lucide-react';
 import { sileo } from 'sileo';
 import type { VendorScore, Requirement, Evidence, Score } from '@/lib/scoring/types';
-import { PRIORITY_WEIGHTS } from '@/lib/scoring/weights';
 import { recalculateWithWeights } from '@/lib/scoring/recalculate';
 import { generateMarkdownReport, copyToClipboard, downloadMarkdown } from '@/lib/utils/export';
 import { useVendorVisibility } from '@/lib/hooks/useVendorVisibility';
@@ -23,6 +22,9 @@ interface DashboardProps {
   vendorScores: VendorScore[];
   requirements: Requirement[];
   evidence: Evidence[];
+  customWeights: Record<string, number>;
+  onWeightChange: (requirementId: string, value: number) => void;
+  onResetWeights: () => void;
 }
 
 interface DrawerState {
@@ -31,18 +33,14 @@ interface DrawerState {
   requirementId: string | null;
 }
 
-function getDefaultWeights(requirements: Requirement[]): Record<string, number> {
-  const weights: Record<string, number> = {};
-  for (const req of requirements) {
-    weights[req.id] = PRIORITY_WEIGHTS[req.priority];
-  }
-  return weights;
-}
-
-export function Dashboard({ vendorScores, requirements, evidence }: DashboardProps) {
-  const defaultWeights = useMemo(() => getDefaultWeights(requirements), [requirements]);
-  const [customWeights, setCustomWeights] = useState<Record<string, number>>(defaultWeights);
-
+export function Dashboard({
+  vendorScores,
+  requirements,
+  evidence,
+  customWeights,
+  onWeightChange,
+  onResetWeights,
+}: DashboardProps) {
   const allVendors = useMemo(() => vendorScores.map((vs) => vs.vendor), [vendorScores]);
   const { visibleIds, toggle, resetAll, canToggle } = useVendorVisibility(allVendors);
 
@@ -75,14 +73,6 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
     },
     [toggle, visibleIds, allVendors]
   );
-
-  const handleWeightChange = useCallback((requirementId: string, value: number) => {
-    setCustomWeights((prev) => ({ ...prev, [requirementId]: value }));
-  }, []);
-
-  const handleResetWeights = useCallback(() => {
-    setCustomWeights(defaultWeights);
-  }, [defaultWeights]);
 
   const handleExportCopy = useCallback(() => {
     const md = generateMarkdownReport({
@@ -137,7 +127,7 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
   }, [drawer.vendorId, drawer.requirementId, adjustedScores, requirements, evidence]);
 
   return (
-    <div className="mx-auto max-w-[1400px] space-y-6 p-6 md:p-8">
+    <div className="mx-auto max-w-[1400px] space-y-6 p-4 sm:p-6 md:p-8">
       {/* Page Header */}
       <AnimatedSection>
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -181,7 +171,7 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
 
       {/* Vendor Score Cards */}
       <AnimatedSection delay={0.1}>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           <AnimatePresence mode="popLayout">
             {visibleScores.map((vs, index) => (
               <motion.div
@@ -207,6 +197,7 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
               vendorScores={adjustedScores}
               requirements={requirements}
               visibleVendorIds={visibleIds}
+              onToggleVendor={handleToggleVendor}
               onCellClick={handleCellClick}
             />
           </div>
@@ -224,8 +215,8 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
         <PrioritySliders
           requirements={requirements}
           weights={customWeights}
-          onWeightChange={handleWeightChange}
-          onReset={handleResetWeights}
+          onWeightChange={onWeightChange}
+          onReset={onResetWeights}
         />
       </AnimatedSection>
 
