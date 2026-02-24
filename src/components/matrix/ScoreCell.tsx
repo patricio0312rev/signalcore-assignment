@@ -23,6 +23,7 @@ export function ScoreCell({ score, isHighest, onClick }: ScoreCellProps) {
       <Tooltip>
         <TooltipTrigger asChild>
           <button
+            data-testid="score-cell"
             onClick={onClick}
             className={cn(
               'flex flex-col items-center gap-1.5 rounded-lg px-4 py-3 hover:bg-white/5 transition-colors cursor-pointer w-full',
