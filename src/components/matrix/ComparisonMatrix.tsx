@@ -95,7 +95,7 @@ export function ComparisonMatrix({
   const isFiltered = activePriorities.size < ALL_PRIORITIES.length;
 
   return (
-    <div className="rounded-xl border border-border bg-card">
+    <div data-walkthrough="comparison-matrix" className="rounded-xl border border-border bg-card">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border px-6 py-4">
         <div>
