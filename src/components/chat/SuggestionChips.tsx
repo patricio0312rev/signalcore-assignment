@@ -24,6 +24,7 @@ export function SuggestionChips({ onSelect }: SuggestionChipsProps) {
         {SUGGESTIONS.map((suggestion) => (
           <button
             key={suggestion}
+            data-testid="suggestion-chip"
             onClick={() => onSelect(suggestion)}
             className="rounded-full border border-border bg-background/50 px-3 py-1 text-xs text-muted-foreground hover:border-primary/50 hover:text-foreground transition-colors"
           >
