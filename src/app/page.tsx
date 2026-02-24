@@ -7,6 +7,8 @@ import { Dashboard } from '@/components/sections/Dashboard';
 import { VendorsTab } from '@/components/sections/VendorsTab';
 import { RequirementsTab } from '@/components/sections/RequirementsTab';
 import { SettingsTab } from '@/components/sections/SettingsTab';
+import { ResearchPanel } from '@/components/research/ResearchPanel';
+import { AnimatedSection } from '@/components/layout/AnimatedSection';
 import { calculateVendorScores } from '@/lib/scoring/engine';
 import { recalculateWithWeights } from '@/lib/scoring/recalculate';
 import { PRIORITY_WEIGHTS } from '@/lib/scoring/weights';
@@ -17,7 +19,7 @@ import type { Vendor, Requirement, Evidence } from '@/lib/scoring/types';
 
 const vendors = vendorsData as Vendor[];
 const requirements = requirementsData as Requirement[];
-const evidence = evidenceData as Evidence[];
+const staticEvidence = evidenceData as Evidence[];
 
 function getDefaultWeights(reqs: Requirement[]): Record<string, number> {
   const weights: Record<string, number> = {};
@@ -29,10 +31,15 @@ function getDefaultWeights(reqs: Requirement[]): Record<string, number> {
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<TabName>('Dashboard');
+  const [researchedEvidence, setResearchedEvidence] = useState<Evidence[]>(staticEvidence);
+
+  const handleResearchComplete = useCallback((evidence: Evidence[]) => {
+    setResearchedEvidence(evidence);
+  }, []);
 
   const vendorScores = useMemo(
-    () => calculateVendorScores(vendors, requirements, evidence),
-    []
+    () => calculateVendorScores(vendors, requirements, researchedEvidence),
+    [researchedEvidence]
   );
 
   const defaultWeights = useMemo(() => getDefaultWeights(requirements), []);
@@ -64,14 +71,21 @@ export default function Home() {
             transition={{ duration: 0.2, ease: 'easeInOut' }}
           >
             {activeTab === 'Dashboard' && (
-              <Dashboard
-                vendorScores={vendorScores}
-                requirements={requirements}
-                evidence={evidence}
-                customWeights={customWeights}
-                onWeightChange={handleWeightChange}
-                onResetWeights={handleResetWeights}
-              />
+              <>
+                <div className="mx-auto max-w-[1400px] px-4 pt-4 sm:px-6 sm:pt-6 md:px-8 md:pt-8">
+                  <AnimatedSection>
+                    <ResearchPanel onResearchComplete={handleResearchComplete} />
+                  </AnimatedSection>
+                </div>
+                <Dashboard
+                  vendorScores={vendorScores}
+                  requirements={requirements}
+                  evidence={researchedEvidence}
+                  customWeights={customWeights}
+                  onWeightChange={handleWeightChange}
+                  onResetWeights={handleResetWeights}
+                />
+              </>
             )}
             {activeTab === 'Vendors' && (
               <VendorsTab
@@ -89,7 +103,7 @@ export default function Home() {
               <SettingsTab
                 vendorScores={adjustedScores}
                 requirements={requirements}
-                evidence={evidence}
+                evidence={researchedEvidence}
                 customWeights={customWeights}
                 onWeightChange={handleWeightChange}
                 onResetWeights={handleResetWeights}
