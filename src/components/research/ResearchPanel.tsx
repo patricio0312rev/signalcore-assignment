@@ -51,7 +51,6 @@ export function ResearchPanel({ onResearchComplete }: ResearchPanelProps) {
     <div className="rounded-lg border border-border bg-card">
       {/* Header */}
       <div
-        data-walkthrough="research-panel"
         className="flex cursor-pointer items-center justify-between px-4 py-3"
         onClick={toggleCollapse}
       >
@@ -82,6 +81,7 @@ export function ResearchPanel({ onResearchComplete }: ResearchPanelProps) {
         <div className="flex items-center gap-2">
           {(state.status === 'idle' || state.status === 'complete' || state.status === 'error') && (
             <Button
+              data-walkthrough="research-panel"
               size="sm"
               onClick={(e) => {
                 e.stopPropagation();
