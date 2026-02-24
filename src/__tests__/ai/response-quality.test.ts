@@ -16,7 +16,7 @@ describe('Response Quality', () => {
   it('responses mention trade-offs (not just the winner)', () => {
     for (const scenario of scenarios) {
       // Each response should mention at least 2 vendors (comparing)
-      const vendorMentions = ['LangSmith', 'Langfuse', 'Braintrust'].filter((v) =>
+      const vendorMentions = ['LangSmith', 'Langfuse', 'Braintrust', 'PostHog'].filter((v) =>
         scenario.response.includes(v)
       );
       expect(
