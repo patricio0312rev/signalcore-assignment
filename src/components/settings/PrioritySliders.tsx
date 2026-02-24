@@ -25,7 +25,7 @@ export function PrioritySliders({
   onReset,
 }: PrioritySlidersProps) {
   return (
-    <div className="rounded-xl border border-border bg-card">
+    <div data-walkthrough="priority-sliders" className="rounded-xl border border-border bg-card">
       <div className="flex items-center justify-between border-b border-border px-6 py-4">
         <div>
           <h2 className="text-sm font-semibold text-foreground">
