@@ -21,6 +21,7 @@ const VENDOR_COLORS: Record<string, string> = {
   'chart-1': 'oklch(0.588 0.185 248)',
   'chart-2': 'oklch(0.696 0.17 162.48)',
   'chart-3': 'oklch(0.645 0.246 16.439)',
+  'chart-4': 'oklch(0.7 0.19 295)',
 };
 
 function getVendorColor(colorKey: string): string {
