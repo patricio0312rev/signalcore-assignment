@@ -171,7 +171,7 @@ export function Dashboard({
 
       {/* Vendor Score Cards */}
       <AnimatedSection delay={0.1}>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <AnimatePresence mode="popLayout">
             {visibleScores.map((vs, index) => (
               <motion.div
