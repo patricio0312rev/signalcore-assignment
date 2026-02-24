@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { FolderOpen, Copy, FileDown } from 'lucide-react';
 import { sileo } from 'sileo';
 import type { VendorScore, Requirement, Evidence, Score } from '@/lib/scoring/types';
@@ -181,9 +182,20 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
       {/* Vendor Score Cards */}
       <AnimatedSection delay={0.1}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {visibleScores.map((vs, index) => (
-            <VendorScoreCard key={vs.vendor.id} vendorScore={vs} rank={index + 1} />
-          ))}
+          <AnimatePresence mode="popLayout">
+            {visibleScores.map((vs, index) => (
+              <motion.div
+                key={vs.vendor.id}
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.25, ease: 'easeInOut' }}
+              >
+                <VendorScoreCard vendorScore={vs} rank={index + 1} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       </AnimatedSection>
 
@@ -192,8 +204,9 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <ComparisonMatrix
-              vendorScores={visibleScores}
+              vendorScores={adjustedScores}
               requirements={requirements}
+              visibleVendorIds={visibleIds}
               onCellClick={handleCellClick}
             />
           </div>
