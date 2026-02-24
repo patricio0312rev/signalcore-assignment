@@ -2,12 +2,15 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Dashboard', () => {
   test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('signalcore_walkthrough_seen', 'true');
+    });
     await page.goto('/');
   });
 
-  test('loads with 3 vendor score cards', async ({ page }) => {
+  test('loads with 4 vendor score cards', async ({ page }) => {
     const cards = page.locator('[data-testid="vendor-score-card"]');
-    await expect(cards).toHaveCount(3);
+    await expect(cards).toHaveCount(4);
   });
 
   test('displays comparison matrix with scores', async ({ page }) => {
@@ -31,14 +34,14 @@ test.describe('Dashboard', () => {
 
   test('vendor toggle chips hide/show vendors', async ({ page }) => {
     const chips = page.locator('[data-testid="vendor-chip"]');
-    await expect(chips).toHaveCount(3);
+    await expect(chips).toHaveCount(4);
 
     // Click first chip to hide a vendor
     await chips.first().click();
 
-    // Should have 2 visible score cards
+    // Should have 3 visible score cards
     const visibleCards = page.locator('[data-testid="vendor-score-card"]');
-    await expect(visibleCards).toHaveCount(2);
+    await expect(visibleCards).toHaveCount(3);
   });
 
   test('screenshot: full dashboard', async ({ page }) => {
