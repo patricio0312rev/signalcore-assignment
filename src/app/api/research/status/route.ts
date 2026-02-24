@@ -29,10 +29,20 @@ export async function GET(request: Request): Promise<Response> {
   const stream = new ReadableStream({
     async start(controller) {
       const abortSignal = request.signal;
+      let closed = false;
+
+      const safeClose = (): void => {
+        if (!closed) {
+          closed = true;
+          controller.close();
+        }
+      };
+
+      abortSignal.addEventListener('abort', () => safeClose(), { once: true });
 
       const poll = (): void => {
-        if (abortSignal.aborted) {
-          controller.close();
+        if (closed || abortSignal.aborted) {
+          safeClose();
           return;
         }
 
@@ -41,7 +51,7 @@ export async function GET(request: Request): Promise<Response> {
           controller.enqueue(
             encoder.encode(`data: ${JSON.stringify({ type: 'error', message: 'Session expired' })}\n\n`)
           );
-          controller.close();
+          safeClose();
           return;
         }
 
@@ -61,7 +71,7 @@ export async function GET(request: Request): Promise<Response> {
 
         // Close when done
         if (currentSession.status === 'complete' || currentSession.status === 'error') {
-          controller.close();
+          safeClose();
           return;
         }
 
