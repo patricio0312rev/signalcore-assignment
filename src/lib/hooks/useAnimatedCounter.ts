@@ -17,7 +17,6 @@ export function useAnimatedCounter(
     prevTarget.current = target;
 
     if (start === end) {
-      setDisplay(end.toFixed(decimals));
       return;
     }
 
