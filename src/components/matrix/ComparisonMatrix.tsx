@@ -219,14 +219,14 @@ export function ComparisonMatrix({
 
               return (
                 <TableRow key={req.id} className="border-border">
-                  <TableCell className="align-middle">
+                  <TableCell className="align-middle max-w-[320px]">
                     <div className="flex items-center gap-2">
                       <PriorityBadge priority={req.priority} />
-                      <div>
-                        <p className="text-sm font-medium text-foreground">
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">
                           {req.name}
                         </p>
-                        <p className="text-xs text-muted-foreground max-w-[280px]">
+                        <p className="text-xs text-muted-foreground line-clamp-2">
                           {req.description}
                         </p>
                       </div>
