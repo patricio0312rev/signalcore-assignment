@@ -1,0 +1,23 @@
+[
+  {
+    "id": "langsmith",
+    "name": "LangSmith",
+    "description": "Full-stack LLM observability platform by LangChain. Deep integration with LangChain ecosystem, comprehensive tracing, evaluation, and prompt management.",
+    "website": "https://smith.langchain.com",
+    "color": "chart-1"
+  },
+  {
+    "id": "langfuse",
+    "name": "Langfuse",
+    "description": "Open-source LLM engineering platform. Self-hostable, OpenTelemetry-native, with strong prompt management and evaluation capabilities.",
+    "website": "https://langfuse.com",
+    "color": "chart-2"
+  },
+  {
+    "id": "braintrust",
+    "name": "Braintrust",
+    "description": "End-to-end platform for evaluating, testing, and debugging AI applications. Strong focus on evaluation frameworks and dataset management.",
+    "website": "https://braintrust.dev",
+    "color": "chart-3"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "tracing",
+    "name": "Tracing & Debugging",
+    "description": "Full trace visualization for nested chains, agents, and tool calls with latency and token tracking.",
+    "priority": "high"
+  },
+  {
+    "id": "prompts",
+    "name": "Prompt Management",
+    "description": "Version control, playground testing, SDK integration for prompt templates.",
+    "priority": "high"
+  },
+  {
+    "id": "evals",
+    "name": "Evaluation Frameworks",
+    "description": "Model-graded evaluations, human-in-the-loop review, custom scoring functions.",
+    "priority": "medium"
+  },
+  {
+    "id": "datasets",
+    "name": "Dataset Management",
+    "description": "Curating, versioning, and splitting datasets for evaluation and fine-tuning.",
+    "priority": "medium"
+  },
+  {
+    "id": "collaboration",
+    "name": "Collaboration",
+    "description": "Team seats, role-based access control, sharing, and annotation workflows.",
+    "priority": "low"
+  },
+  {
+    "id": "pricing",
+    "name": "Pricing & Enterprise",
+    "description": "Usage-based cost structure, self-hosting options, SOC 2 compliance, and enterprise support.",
+    "priority": "low"
+  }
+]
