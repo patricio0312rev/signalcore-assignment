@@ -1,11 +1,18 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { FolderOpen, Download, Plus } from 'lucide-react';
+import { useState, useMemo, useCallback } from 'react';
+import { FolderOpen, Copy, FileDown } from 'lucide-react';
+import { sileo } from 'sileo';
 import type { VendorScore, Requirement, Evidence, Score } from '@/lib/scoring/types';
+import { PRIORITY_WEIGHTS } from '@/lib/scoring/weights';
+import { recalculateWithWeights } from '@/lib/scoring/recalculate';
+import { generateMarkdownReport, copyToClipboard, downloadMarkdown } from '@/lib/utils/export';
 import { VendorScoreCard } from '@/components/vendors/VendorScoreCard';
 import { ComparisonMatrix } from '@/components/matrix/ComparisonMatrix';
 import { EvidenceDrawer } from '@/components/evidence/EvidenceDrawer';
+import { VendorRadarChart } from '@/components/charts/VendorRadarChart';
+import { PrioritySliders } from '@/components/settings/PrioritySliders';
+import { ChatPanel } from '@/components/chat/ChatPanel';
 import { Button } from '@/components/ui/button';
 
 interface DashboardProps {
@@ -20,12 +27,60 @@ interface DrawerState {
   requirementId: string | null;
 }
 
+function getDefaultWeights(requirements: Requirement[]): Record<string, number> {
+  const weights: Record<string, number> = {};
+  for (const req of requirements) {
+    weights[req.id] = PRIORITY_WEIGHTS[req.priority];
+  }
+  return weights;
+}
+
 export function Dashboard({ vendorScores, requirements, evidence }: DashboardProps) {
+  const defaultWeights = useMemo(() => getDefaultWeights(requirements), [requirements]);
+  const [customWeights, setCustomWeights] = useState<Record<string, number>>(defaultWeights);
+
   const [drawer, setDrawer] = useState<DrawerState>({
     open: false,
     vendorId: null,
     requirementId: null,
   });
+
+  const adjustedScores = useMemo(
+    () => recalculateWithWeights(vendorScores, customWeights),
+    [vendorScores, customWeights]
+  );
+
+  const handleWeightChange = useCallback((requirementId: string, value: number) => {
+    setCustomWeights((prev) => ({ ...prev, [requirementId]: value }));
+  }, []);
+
+  const handleResetWeights = useCallback(() => {
+    setCustomWeights(defaultWeights);
+  }, [defaultWeights]);
+
+  const handleExportCopy = useCallback(() => {
+    const md = generateMarkdownReport({
+      vendorScores: adjustedScores,
+      requirements,
+      evidence,
+      customWeights,
+    });
+    copyToClipboard(md).then(() => {
+      sileo.success({ title: 'Report copied to clipboard' });
+    });
+  }, [adjustedScores, requirements, evidence, customWeights]);
+
+  const handleExportDownload = useCallback(() => {
+    const md = generateMarkdownReport({
+      vendorScores: adjustedScores,
+      requirements,
+      evidence,
+      customWeights,
+    });
+    const date = new Date().toISOString().split('T')[0];
+    downloadMarkdown(md, `signalcore-report-${date}.md`);
+    sileo.success({ title: 'Report downloaded' });
+  }, [adjustedScores, requirements, evidence, customWeights]);
 
   const handleCellClick = (vendorId: string, requirementId: string) => {
     setDrawer({ open: true, vendorId, requirementId });
@@ -40,7 +95,7 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
       return { vendorName: '', requirementName: '', score: null as Score | null, evidence: [] as Evidence[] };
     }
 
-    const vendor = vendorScores.find((vs) => vs.vendor.id === drawer.vendorId);
+    const vendor = adjustedScores.find((vs) => vs.vendor.id === drawer.vendorId);
     const requirement = requirements.find((r) => r.id === drawer.requirementId);
     const score = vendor?.scores.find((s) => s.requirementId === drawer.requirementId) ?? null;
     const filteredEvidence = evidence.filter(
@@ -53,7 +108,7 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
       score,
       evidence: filteredEvidence,
     };
-  }, [drawer.vendorId, drawer.requirementId, vendorScores, requirements, evidence]);
+  }, [drawer.vendorId, drawer.requirementId, adjustedScores, requirements, evidence]);
 
   return (
     <div className="mx-auto max-w-[1400px] space-y-6 p-6 md:p-8">
@@ -74,41 +129,51 @@ export function Dashboard({ vendorScores, requirements, evidence }: DashboardPro
           </p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" size="sm" className="gap-2">
-            <Download className="size-4" />
-            Export Report
+          <Button variant="outline" size="sm" className="gap-2" onClick={handleExportCopy}>
+            <Copy className="size-4" />
+            Copy Report
           </Button>
-          <Button size="sm" className="gap-2">
-            <Plus className="size-4" />
-            Add Vendor
+          <Button variant="outline" size="sm" className="gap-2" onClick={handleExportDownload}>
+            <FileDown className="size-4" />
+            Download .md
           </Button>
         </div>
       </div>
 
       {/* Vendor Score Cards */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {vendorScores.map((vs, index) => (
+        {adjustedScores.map((vs, index) => (
           <VendorScoreCard key={vs.vendor.id} vendorScore={vs} rank={index + 1} />
         ))}
       </div>
 
-      {/* Matrix + Radar Chart placeholder */}
+      {/* Matrix + Radar Chart */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <ComparisonMatrix
-            vendorScores={vendorScores}
+            vendorScores={adjustedScores}
             requirements={requirements}
             onCellClick={handleCellClick}
           />
         </div>
         <div className="flex flex-col gap-6">
-          {/* Radar chart placeholder — Feature 5 */}
-          <div className="flex flex-1 flex-col items-center justify-center rounded-xl border border-border bg-card p-6 text-muted-foreground">
-            <p className="text-sm font-medium">Vendor Radar</p>
-            <p className="mt-1 text-xs">Chart coming in Feature 5</p>
-          </div>
+          <VendorRadarChart
+            vendorScores={adjustedScores}
+            requirements={requirements}
+          />
         </div>
       </div>
+
+      {/* Priority Sliders */}
+      <PrioritySliders
+        requirements={requirements}
+        weights={customWeights}
+        onWeightChange={handleWeightChange}
+        onReset={handleResetWeights}
+      />
+
+      {/* Chat Panel */}
+      <ChatPanel vendors={adjustedScores.map((vs) => vs.vendor)} />
 
       {/* Evidence Drawer */}
       <EvidenceDrawer
