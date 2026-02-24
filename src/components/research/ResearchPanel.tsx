@@ -48,7 +48,7 @@ export function ResearchPanel({ onResearchComplete }: ResearchPanelProps) {
   }, []);
 
   return (
-    <div className="rounded-lg border border-border bg-card">
+    <div data-walkthrough="research-panel" className="rounded-lg border border-border bg-card">
       {/* Header */}
       <div
         className="flex cursor-pointer items-center justify-between px-4 py-3"
