@@ -1,5 +1,5 @@
 import { ExternalLink } from 'lucide-react';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { cn } from '@/lib/utils';
 import type { Evidence } from '@/lib/scoring/types';
 import { SourceTypeBadge } from '@/components/evidence/SourceTypeBadge';
@@ -11,7 +11,7 @@ interface EvidenceCardProps {
 }
 
 export function EvidenceCard({ evidence }: EvidenceCardProps) {
-  const publishedDate = format(new Date(evidence.publishedAt), 'MMM d, yyyy');
+  const publishedDate = format(parseISO(evidence.publishedAt), 'MMM d, yyyy');
   const truncatedUrl = evidence.sourceUrl.replace(/^https?:\/\//, '').slice(0, 50);
 
   return (
