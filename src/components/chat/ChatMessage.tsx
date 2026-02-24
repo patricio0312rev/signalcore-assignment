@@ -10,7 +10,7 @@ export function ChatMessage({ role, content }: ChatMessageProps) {
   const isUser = role === 'user';
 
   return (
-    <div className={cn('flex gap-3', isUser && 'flex-row-reverse')}>
+    <div data-testid="chat-message" className={cn('flex gap-3', isUser && 'flex-row-reverse')}>
       <div
         className={cn(
           'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg',
