@@ -143,7 +143,7 @@ export function EvidenceDrawer({
             className={cn(
               'flex-1 inline-flex items-center justify-center gap-2 rounded-lg',
               'bg-primary text-primary-foreground px-4 py-2 text-sm font-medium',
-              'transition hover:bg-primary/90'
+              'transition hover:bg-primary/90 cursor-pointer'
             )}
           >
             <Download className="size-4" />
@@ -154,7 +154,7 @@ export function EvidenceDrawer({
             className={cn(
               'inline-flex items-center justify-center rounded-lg',
               'border border-border bg-card px-3 py-2 text-sm font-medium',
-              'text-foreground transition hover:bg-accent'
+              'text-foreground transition hover:bg-accent cursor-pointer'
             )}
           >
             <Share2 className="size-4" />
