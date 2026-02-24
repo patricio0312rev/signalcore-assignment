@@ -16,6 +16,7 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
 
   return (
     <div
+      data-testid="evidence-card"
       className={cn(
         'rounded-xl border border-border bg-card p-4 transition',
         'hover:border-primary/50'
