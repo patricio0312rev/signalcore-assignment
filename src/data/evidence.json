@@ -8,8 +8,8 @@
     "sourceUrl": "https://docs.smith.langchain.com/tracing",
     "sourceType": "official",
     "strength": "strong",
-    "publishedAt": "2024-09-15",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2026-01-15",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-ls-prompts-1",
@@ -20,8 +20,8 @@
     "sourceUrl": "https://docs.smith.langchain.com/prompt_engineering",
     "sourceType": "official",
     "strength": "strong",
-    "publishedAt": "2024-07-20",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-12-10",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-ls-evals-1",
@@ -32,8 +32,8 @@
     "sourceUrl": "https://docs.smith.langchain.com/evaluation",
     "sourceType": "official",
     "strength": "strong",
-    "publishedAt": "2024-10-05",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2026-02-01",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-ls-datasets-1",
@@ -44,8 +44,8 @@
     "sourceUrl": "https://docs.smith.langchain.com/evaluation/how_to_guides/manage_datasets_programmatically",
     "sourceType": "official",
     "strength": "moderate",
-    "publishedAt": "2024-06-12",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-09-12",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-ls-collaboration-1",
@@ -56,8 +56,8 @@
     "sourceUrl": "https://docs.smith.langchain.com/administration",
     "sourceType": "official",
     "strength": "moderate",
-    "publishedAt": "2024-08-01",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-10-01",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-ls-pricing-1",
@@ -68,8 +68,8 @@
     "sourceUrl": "https://www.langchain.com/pricing",
     "sourceType": "official",
     "strength": "strong",
-    "publishedAt": "2024-11-01",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2026-01-05",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-lf-tracing-1",
@@ -80,8 +80,8 @@
     "sourceUrl": "https://langfuse.com/docs/tracing",
     "sourceType": "official",
     "strength": "strong",
-    "publishedAt": "2024-10-20",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2026-01-20",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-lf-prompts-1",
@@ -92,8 +92,8 @@
     "sourceUrl": "https://langfuse.com/docs/prompts/get-started",
     "sourceType": "official",
     "strength": "strong",
-    "publishedAt": "2024-08-15",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-11-15",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-lf-evals-1",
@@ -104,8 +104,8 @@
     "sourceUrl": "https://langfuse.com/docs/scores/overview",
     "sourceType": "official",
     "strength": "moderate",
-    "publishedAt": "2024-09-10",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-12-10",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-lf-datasets-1",
@@ -116,8 +116,8 @@
     "sourceUrl": "https://langfuse.com/docs/datasets/overview",
     "sourceType": "official",
     "strength": "moderate",
-    "publishedAt": "2024-07-01",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-08-01",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-lf-collaboration-1",
@@ -128,8 +128,8 @@
     "sourceUrl": "https://langfuse.com/docs/rbac",
     "sourceType": "official",
     "strength": "moderate",
-    "publishedAt": "2024-05-20",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-07-20",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-lf-pricing-1",
@@ -140,8 +140,8 @@
     "sourceUrl": "https://langfuse.com/pricing",
     "sourceType": "official",
     "strength": "strong",
-    "publishedAt": "2024-11-15",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2026-02-01",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-bt-tracing-1",
@@ -152,8 +152,8 @@
     "sourceUrl": "https://www.braintrust.dev/docs/guides/logging",
     "sourceType": "official",
     "strength": "moderate",
-    "publishedAt": "2024-08-25",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-11-25",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-bt-prompts-1",
@@ -164,8 +164,8 @@
     "sourceUrl": "https://www.braintrust.dev/docs/guides/playground",
     "sourceType": "official",
     "strength": "moderate",
-    "publishedAt": "2024-06-30",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-08-30",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-bt-evals-1",
@@ -176,8 +176,8 @@
     "sourceUrl": "https://www.braintrust.dev/docs/guides/evals",
     "sourceType": "official",
     "strength": "strong",
-    "publishedAt": "2024-10-10",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2026-01-10",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-bt-datasets-1",
@@ -188,8 +188,8 @@
     "sourceUrl": "https://www.braintrust.dev/docs/guides/datasets",
     "sourceType": "official",
     "strength": "strong",
-    "publishedAt": "2024-09-05",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-12-05",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-bt-collaboration-1",
@@ -200,8 +200,8 @@
     "sourceUrl": "https://www.braintrust.dev/docs/guides/projects",
     "sourceType": "official",
     "strength": "weak",
-    "publishedAt": "2024-04-15",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-06-15",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-bt-pricing-1",
@@ -212,8 +212,8 @@
     "sourceUrl": "https://www.braintrust.dev/pricing",
     "sourceType": "official",
     "strength": "moderate",
-    "publishedAt": "2024-10-20",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2026-01-20",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-lf-tracing-2",
@@ -224,8 +224,8 @@
     "sourceUrl": "https://github.com/langfuse/langfuse",
     "sourceType": "github",
     "strength": "strong",
-    "publishedAt": "2024-12-01",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2026-02-01",
+    "capturedAt": "2026-02-10"
   },
   {
     "id": "ev-ls-evals-2",
@@ -236,7 +236,7 @@
     "sourceUrl": "https://blog.langchain.dev/llm-evaluations-with-langsmith/",
     "sourceType": "blog",
     "strength": "moderate",
-    "publishedAt": "2023-11-15",
-    "capturedAt": "2025-01-10"
+    "publishedAt": "2025-05-15",
+    "capturedAt": "2026-02-10"
   }
 ]
