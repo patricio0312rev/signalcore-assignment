@@ -16,12 +16,17 @@
 src/
 ├── app/                    # Pages and API routes (App Router)
 │   ├── layout.tsx          # Root layout
-│   ├── page.tsx            # Dashboard (main page)
+│   ├── page.tsx            # Dashboard (main page, client component)
 │   └── api/
+│       ├── research/       # Agentic research pipeline API
+│       │   ├── start/route.ts    # POST — trigger research
+│       │   ├── status/route.ts   # GET — SSE progress stream
+│       │   └── results/route.ts  # GET — completed evidence
 │       ├── evidence/route.ts
 │       ├── recommend/route.ts
 │       └── score/route.ts
 ├── components/             # React components by feature
+│   ├── research/           # ResearchPanel, VendorProgress, EventLog
 │   ├── layout/             # Header, Sidebar, Footer
 │   ├── matrix/             # ComparisonMatrix, ScoreCell, badges
 │   ├── evidence/           # EvidenceDrawer, EvidenceCard
@@ -30,17 +35,29 @@ src/
 │   ├── vendors/            # VendorScoreCard, VendorComparisonBar
 │   └── settings/           # PrioritySliders, ExportButton
 ├── lib/                    # Business logic (no React)
+│   ├── research/           # Agentic research pipeline
+│   │   ├── types.ts        # Research types (sessions, events, pages)
+│   │   ├── sources.ts      # Vendor source URL configs (18 real URLs)
+│   │   ├── fetcher.ts      # HTTP fetcher with caching and retries
+│   │   ├── parser.ts       # HTML-to-text and GitHub response parsers
+│   │   ├── analyzer.ts     # Evidence extraction (routes to mock/live)
+│   │   ├── mock-analyzer.ts # Simulated LLM with pre-generated responses
+│   │   ├── mock-responses.ts # 24 vendor×requirement mock evidence sets
+│   │   ├── prompts.ts      # LLM prompts for live mode
+│   │   ├── orchestrator.ts # Pipeline coordinator (sequential vendors)
+│   │   ├── session-store.ts # In-memory session management with TTL
+│   │   └── config.ts       # Research mode env var handling
 │   ├── scoring/            # engine.ts, weights.ts, confidence.ts, types.ts
 │   ├── chat/               # scenarios.ts, matcher.ts, prompts.ts
 │   └── utils/              # freshness.ts, export.ts
-├── data/                   # Static JSON data
-│   ├── evidence.json
-│   ├── vendors.json
-│   ├── requirements.json
+├── data/                   # JSON data (vendors, requirements, chat scenarios)
+│   ├── evidence.json       # Empty — populated by research pipeline
+│   ├── vendors.json        # 4 vendors: LangSmith, Langfuse, Braintrust, PostHog
+│   ├── requirements.json   # 6 requirements from assignment spec
 │   └── chat-scenarios.json
-└── __tests__/              # Test files
-    ├── unit/
-    ├── ai/
+└── __tests__/              # Test files (115 tests across 10 suites)
+    ├── unit/               # scoring, confidence, weights, freshness, parser, mock-analyzer
+    ├── ai/                 # prompt-regression, scoring-consistency, hallucination, response-quality
     └── e2e/
 ```
 
@@ -76,10 +93,13 @@ src/
 
 ## Key Decisions
 
-- **No LLM API calls** — chat recommendations are hardcoded scenarios matched by keyword but simulate the use of LLM's using an env var
+- **Agentic research pipeline** — app fetches real vendor docs/GitHub data, then extracts evidence (simulated LLM by default, swappable to live via `RESEARCH_MODE` env var)
+- **Real web fetching, simulated analysis** — HTTP requests are always real; only the LLM evidence extraction step is simulated in default mode
+- **SSE for progress** — research progress streams to browser via Server-Sent Events (`/api/research/status`)
+- **In-memory sessions** — research sessions stored in module-level Map (demo-only; production would use Redis/KV)
 - **Deterministic scoring** — same evidence input always produces same scores
-- **Static data** — all evidence/vendor/requirement data lives in JSON files, served via API routes
 - **Client-side interactivity** — priority sliders recalculate scores in the browser
+- **Chat recommendations** — hardcoded scenarios matched by keyword (no real LLM calls)
 
 ## Git Conventions
 
