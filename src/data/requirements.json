@@ -1,38 +1,38 @@
 [
   {
-    "id": "tracing",
-    "name": "Tracing & Debugging",
-    "description": "Full trace visualization for nested chains, agents, and tool calls with latency and token tracking.",
+    "id": "framework-agnostic",
+    "name": "Framework-Agnostic Tracing",
+    "description": "Not locked into LangChain or any single framework. Supports tracing across multiple LLM frameworks and custom implementations.",
     "priority": "high"
   },
   {
-    "id": "prompts",
-    "name": "Prompt Management",
-    "description": "Version control, playground testing, SDK integration for prompt templates.",
+    "id": "self-hosting",
+    "name": "Self-Hosting & Data Sovereignty",
+    "description": "Self-hosting option with full data sovereignty. Deploy on your own infrastructure with no data leaving your network.",
     "priority": "high"
   },
   {
-    "id": "evals",
-    "name": "Evaluation Frameworks",
-    "description": "Model-graded evaluations, human-in-the-loop review, custom scoring functions.",
+    "id": "eval-framework",
+    "name": "Evaluation Framework",
+    "description": "Built-in evaluation framework with LLM-as-judge, custom metrics, and regression testing capabilities.",
+    "priority": "high"
+  },
+  {
+    "id": "opentelemetry",
+    "name": "OpenTelemetry Support",
+    "description": "OpenTelemetry support for integration with existing observability stack. OTLP ingestion and standard instrumentation.",
     "priority": "medium"
   },
   {
-    "id": "datasets",
-    "name": "Dataset Management",
-    "description": "Curating, versioning, and splitting datasets for evaluation and fine-tuning.",
+    "id": "prompt-management",
+    "name": "Prompt Management & Versioning",
+    "description": "Prompt management and versioning with rollback capability. Playground testing and SDK integration.",
     "priority": "medium"
-  },
-  {
-    "id": "collaboration",
-    "name": "Collaboration",
-    "description": "Team seats, role-based access control, sharing, and annotation workflows.",
-    "priority": "low"
   },
   {
     "id": "pricing",
-    "name": "Pricing & Enterprise",
-    "description": "Usage-based cost structure, self-hosting options, SOC 2 compliance, and enterprise support.",
+    "name": "Transparent Pricing at Scale",
+    "description": "Transparent, predictable pricing at scale (100K+ traces/month). Clear cost structure without surprise overages.",
     "priority": "low"
   }
 ]
