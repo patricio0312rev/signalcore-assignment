@@ -9,7 +9,6 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useResearchSession } from '@/lib/hooks/useResearchSession';
 import { VendorProgress } from './VendorProgress';
@@ -31,13 +30,6 @@ export function ResearchPanel({ onResearchComplete }: ResearchPanelProps) {
 
     return () => clearTimeout(timer);
   }, [state.status]);
-
-  // Expand when running
-  useEffect(() => {
-    if (isRunning) {
-      setCollapsed(false);
-    }
-  }, [isRunning]);
 
   // Notify parent when evidence is available
   useEffect(() => {
