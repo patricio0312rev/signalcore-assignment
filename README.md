@@ -99,7 +99,10 @@ SignalCore uses a deterministic, evidence-based scoring system:
 - **Styling**: Tailwind CSS v4
 - **Charts**: Recharts
 - **Icons**: Lucide React
-- **Testing**: Vitest + Testing Library (unit), Playwright (e2e)
+- **Animations**: Framer Motion
+- **Toasts**: Sileo
+- **Testing**: Vitest (unit/AI), Playwright (e2e)
+- **CI/CD**: GitHub Actions + Vercel
 
 ## Project Structure
 
@@ -134,11 +137,28 @@ npx playwright test
 pnpm test -- --coverage
 ```
 
-### Test Categories
+### Test Results
 
-- **Unit Tests**: Scoring engine, confidence calculation, weights, freshness
-- **AI Tests**: Prompt regression, scoring consistency, hallucination detection, response quality
-- **E2E Tests**: Dashboard rendering, evidence drawer, chat interactions
+**50 tests passing** across 8 test suites:
+
+| Suite | Tests | Category |
+|-------|-------|----------|
+| `scoring.test.ts` | 10 | Unit — scoring engine, determinism, ranking |
+| `confidence.test.ts` | 4 | Unit — confidence level calculation |
+| `weights.test.ts` | 10 | Unit — source/strength/priority weights |
+| `freshness.test.ts` | 6 | Unit — recency levels and multipliers |
+| `prompt-regression.test.ts` | 5 | AI — scenario matching accuracy |
+| `scoring-consistency.test.ts` | 5 | AI — deterministic scoring guarantees |
+| `hallucination-detection.test.ts` | 5 | AI — no fabricated vendors/claims |
+| `response-quality.test.ts` | 5 | AI — response length, trade-offs, structure |
+
+### E2E Tests (Playwright)
+
+- Dashboard loads with 3 vendor cards and 6x3 matrix
+- Clicking a matrix cell opens the evidence drawer
+- Vendor toggle chips hide/show vendors with animation
+- Chat panel opens, suggestion chips trigger responses
+- Screenshots captured for visual regression
 
 ## AI Usage Log
 
@@ -160,9 +180,16 @@ This project was built with Claude Code as a pair-programming assistant. Claude 
 - **Collaborative Evaluation**: Share comparisons with team members, add comments
 - **PDF Export**: Generate formatted PDF reports alongside Markdown
 
-## Screenshots
+## Features
 
-<!-- Screenshots will be added after UI is built -->
+- **Comparison Matrix** — 6 requirements x 3 vendors with clickable score cells
+- **Evidence Drawer** — slide-out panel with source badges, freshness indicators, strength ratings
+- **Radar Chart** — visual comparison across all evaluation criteria
+- **Chat Panel** — AI-powered vendor advisor with predefined scenarios and keyword matching
+- **Priority Sliders** — adjust requirement weights (1-5) with live score recalculation
+- **Vendor Toggle** — hide/show vendors with smooth animations
+- **Export** — copy report to clipboard or download as Markdown
+- **Dark Mode** — fully dark-themed UI with oklch color palette
 
 ## License
 
