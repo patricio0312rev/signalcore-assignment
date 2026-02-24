@@ -1,0 +1,120 @@
+[
+  {
+    "id": "data-sovereignty",
+    "keywords": ["data sovereignty", "self-host", "on-premise", "privacy", "gdpr", "compliance", "own data"],
+    "question": "We need full data sovereignty",
+    "response": "For data sovereignty, **Langfuse** is the clear winner. It's fully open-source and self-hostable, meaning you keep complete control over your data. You can deploy it on your own infrastructure (Docker, Kubernetes) with no data leaving your network.\n\nLangSmith offers a cloud-hosted solution with SOC 2 compliance but doesn't support self-hosting. Braintrust is cloud-only as well.\n\nIf GDPR compliance or data residency requirements are non-negotiable, Langfuse is your best option.",
+    "recommendedVendorId": "langfuse",
+    "matchScore": 0.95,
+    "reasoning": [
+      "Langfuse is fully open-source and self-hostable",
+      "Docker and Kubernetes deployment supported",
+      "No data leaves your infrastructure",
+      "LangSmith and Braintrust are cloud-only"
+    ]
+  },
+  {
+    "id": "langchain-ecosystem",
+    "keywords": ["langchain", "lcel", "langchain ecosystem", "langgraph", "langserve"],
+    "question": "We're fully committed to LangChain",
+    "response": "If you're deeply invested in the **LangChain ecosystem**, **LangSmith** provides the tightest integration. It's built by the same team and offers first-class support for LangChain Expression Language (LCEL), LangGraph agents, and LangServe deployments.\n\nThat said, both Langfuse and Braintrust support LangChain through their SDKs — they're not LangChain-exclusive. But LangSmith's native integration means zero-config tracing, automatic chain visualization, and deeper debugging capabilities for LangChain-specific constructs.",
+    "recommendedVendorId": "langsmith",
+    "matchScore": 0.92,
+    "reasoning": [
+      "Built by the LangChain team for native integration",
+      "Zero-config tracing for LCEL chains",
+      "LangGraph agent visualization built-in",
+      "Deepest debugging for LangChain constructs"
+    ]
+  },
+  {
+    "id": "budget-constraint",
+    "keywords": ["budget", "cost", "cheap", "free", "open source", "pricing", "affordable", "save money"],
+    "question": "Budget is our main constraint",
+    "response": "For budget-conscious teams, **Langfuse** stands out as the only fully open-source option. You can self-host it for free (just infrastructure costs) or use their cloud tier which has a generous free plan.\n\n**Braintrust** offers a free tier with limited traces. **LangSmith** has a developer free tier but paid plans start at higher price points.\n\nIf you want zero licensing cost and full control, self-hosted Langfuse is the way to go. If you prefer managed hosting with a free tier, both Langfuse Cloud and Braintrust offer options.",
+    "recommendedVendorId": "langfuse",
+    "matchScore": 0.90,
+    "reasoning": [
+      "Langfuse is fully open-source with self-host option",
+      "Zero licensing cost when self-hosted",
+      "Langfuse Cloud has a generous free tier",
+      "Braintrust has limited free tier",
+      "LangSmith free tier is more restrictive"
+    ]
+  },
+  {
+    "id": "best-evals",
+    "keywords": ["evaluation", "eval", "evals", "testing", "benchmark", "scoring", "grading"],
+    "question": "Best evaluation framework?",
+    "response": "All three platforms offer evaluation capabilities, but they differ in approach:\n\n**Braintrust** leads with its evaluation-first design. It supports custom scoring functions, model-graded evals, and side-by-side experiment comparisons. Their dataset management for eval sets is also the most mature.\n\n**LangSmith** offers strong eval support through LangChain's evaluation library, with human-in-the-loop review and automatic evaluators.\n\n**Langfuse** provides basic evaluation scoring that integrates with their tracing system, though it's less specialized than the others.\n\nFor evaluation-heavy workflows, Braintrust edges ahead.",
+    "recommendedVendorId": "braintrust",
+    "matchScore": 0.88,
+    "reasoning": [
+      "Braintrust was designed evaluation-first",
+      "Custom scoring functions and model-graded evals",
+      "Side-by-side experiment comparison",
+      "LangSmith strong via LangChain eval library",
+      "Langfuse evals are more basic"
+    ]
+  },
+  {
+    "id": "opentelemetry",
+    "keywords": ["opentelemetry", "otel", "observability", "instrumentation", "tracing standard", "vendor-neutral"],
+    "question": "We need OpenTelemetry support",
+    "response": "**Langfuse** is the strongest choice for OpenTelemetry-native observability. It supports OTLP ingestion natively, meaning you can instrument your code with standard OpenTelemetry SDKs and send traces directly to Langfuse.\n\n**LangSmith** uses its own proprietary tracing format through the LangChain SDK. It doesn't support OTel natively.\n\n**Braintrust** has some OpenTelemetry compatibility but it's not as deeply integrated as Langfuse.\n\nIf vendor-neutral observability and OTel standards matter to your team, Langfuse is the clear choice.",
+    "recommendedVendorId": "langfuse",
+    "matchScore": 0.91,
+    "reasoning": [
+      "Langfuse supports OTLP ingestion natively",
+      "Standard OTel SDKs work directly",
+      "LangSmith uses proprietary tracing format",
+      "Braintrust has partial OTel support",
+      "Best for vendor-neutral observability"
+    ]
+  },
+  {
+    "id": "high-volume",
+    "keywords": ["scale", "volume", "traces", "500k", "million", "high throughput", "production", "enterprise"],
+    "question": "Compare for 500K traces/month",
+    "response": "At **500K traces/month**, pricing differences become significant:\n\n**Langfuse Cloud**: Most cost-effective at scale. Their usage-based pricing and self-host option means you can control costs. Self-hosted = only infrastructure costs.\n\n**LangSmith**: Enterprise pricing applies at this volume. Contact sales for custom pricing. Expect $500+/month range.\n\n**Braintrust**: Usage-based pricing. At 500K traces, costs are moderate but higher than self-hosted Langfuse.\n\nFor high-volume production workloads, self-hosted Langfuse gives you the most predictable costs. If you want managed hosting, compare LangSmith enterprise vs Braintrust usage-based pricing for your specific trace sizes.",
+    "recommendedVendorId": null,
+    "matchScore": 0.85,
+    "reasoning": [
+      "Self-hosted Langfuse = only infrastructure costs",
+      "LangSmith requires enterprise plan at this volume",
+      "Braintrust usage-based pricing scales linearly",
+      "Trace size and retention affect final costs",
+      "Self-hosting gives most predictable pricing"
+    ]
+  },
+  {
+    "id": "agent-tracing",
+    "keywords": ["agent", "agents", "multi-step", "agentic", "tool calls", "chain", "workflow", "langgraph"],
+    "question": "We run multi-step agents",
+    "response": "For **multi-step agent tracing**, here's how they compare:\n\n**LangSmith** excels with native LangGraph support. It visualizes agent decision trees, tool calls, and branching logic with full trace hierarchies. If you use LangGraph, this is unmatched.\n\n**Langfuse** provides nested trace visualization that works well for agent workflows. It's framework-agnostic, so it works with any agent framework through OpenTelemetry or their SDK.\n\n**Braintrust** supports agent tracing but focuses more on evaluating agent outputs rather than real-time debugging of agent steps.\n\nFor LangGraph agents: LangSmith. For framework-agnostic agent tracing: Langfuse.",
+    "recommendedVendorId": "langsmith",
+    "matchScore": 0.87,
+    "reasoning": [
+      "LangSmith has native LangGraph agent visualization",
+      "Full decision tree and branching logic display",
+      "Langfuse works with any framework via OTel",
+      "Braintrust focuses on eval over debugging",
+      "Choice depends on your agent framework"
+    ]
+  },
+  {
+    "id": "prompt-versioning",
+    "keywords": ["prompt", "prompt versioning", "prompt management", "template", "playground", "prompt engineering"],
+    "question": "We need prompt versioning",
+    "response": "All three offer prompt management, but with different strengths:\n\n**LangSmith** provides a full prompt hub with versioning, playground testing, and SDK integration for deploying prompts. It's tightly coupled with LangChain's prompt template system.\n\n**Langfuse** offers robust prompt management with version control, A/B testing, and a playground. Its advantage is framework-agnostic prompt deployment — works with any LLM provider.\n\n**Braintrust** has prompt management with versioning and playground features, plus strong integration with their evaluation system for testing prompt changes.\n\nAll three are solid. Choose based on your framework: LangSmith for LangChain, Langfuse for framework-agnostic, Braintrust if evaluation of prompt changes is your priority.",
+    "recommendedVendorId": null,
+    "matchScore": 0.86,
+    "reasoning": [
+      "LangSmith: full prompt hub with LangChain integration",
+      "Langfuse: framework-agnostic prompt versioning",
+      "Braintrust: prompt + eval integration",
+      "All three support versioning and playground",
+      "Decision depends on framework and eval needs"
+    ]
+  }
+]
