@@ -160,6 +160,11 @@ pnpm test -- --coverage
 - Chat panel opens, suggestion chips trigger responses
 - Screenshots captured for visual regression
 
+## Design & Planning
+
+- **Plan in Claude**: [claude.ai/share/2447e604](https://claude.ai/share/2447e604-0a92-4bf5-822e-ae4832b47a2b)
+- **Design in Stitch**: [stitch.withgoogle.com/projects/13656588671312878511](https://stitch.withgoogle.com/projects/13656588671312878511)
+
 ## AI Usage Log
 
 This project was built with Claude Code as a pair-programming assistant. Claude was used for:
