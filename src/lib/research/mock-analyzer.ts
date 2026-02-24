@@ -7,7 +7,7 @@ function delay(ms: number): Promise<void> {
 }
 
 function randomLatency(): number {
-  return Math.floor(Math.random() * 1200) + 800;
+  return Math.floor(Math.random() * 200) + 100;
 }
 
 export async function analyzeMock(
