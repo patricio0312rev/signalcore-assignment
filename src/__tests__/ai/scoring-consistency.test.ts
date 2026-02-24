@@ -6,7 +6,7 @@ function makeEvidence(overrides: Partial<Evidence> = {}): Evidence {
   return {
     id: 'e1',
     vendorId: 'langsmith',
-    requirementId: 'tracing',
+    requirementId: 'framework-agnostic',
     claim: 'Test',
     snippet: 'Test',
     sourceUrl: 'https://example.com',
@@ -75,7 +75,7 @@ describe('Scoring Consistency', () => {
   });
 
   it('no evidence → score 0 + confidence low', () => {
-    const result = calculateScore('langsmith', 'tracing', []);
+    const result = calculateScore('langsmith', 'framework-agnostic', []);
     expect(result.score).toBe(0);
     expect(result.confidence).toBe('low');
   });
