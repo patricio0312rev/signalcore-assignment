@@ -43,6 +43,7 @@ export function VendorToggleChips({
         return (
           <button
             key={vendor.id}
+            data-testid="vendor-chip"
             onClick={() => onToggle(vendor.id)}
             disabled={disabled}
             className={cn(
