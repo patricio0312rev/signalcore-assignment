@@ -19,6 +19,7 @@ export function VendorScoreCard({ vendorScore, rank }: VendorScoreCardProps) {
 
   return (
     <div
+      data-testid="vendor-score-card"
       className={cn(
         'relative bg-card border border-border rounded-xl p-5 hover:border-primary/50 transition-all duration-300',
         isTopPick && 'ring-1 ring-primary/20'
