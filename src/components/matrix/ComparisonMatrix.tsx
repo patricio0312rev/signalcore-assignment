@@ -1,7 +1,6 @@
 'use client';
 
 import { Filter, SlidersHorizontal } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import type { VendorScore, Requirement, Score } from '@/lib/scoring/types';
 import {
   Table,
