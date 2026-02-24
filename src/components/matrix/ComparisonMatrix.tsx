@@ -1,6 +1,7 @@
 'use client';
 
 import { Filter, SlidersHorizontal } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import type { VendorScore, Requirement, Score } from '@/lib/scoring/types';
 import {
   Table,
@@ -16,12 +17,14 @@ import { ScoreCell } from '@/components/matrix/ScoreCell';
 interface ComparisonMatrixProps {
   vendorScores: VendorScore[];
   requirements: Requirement[];
+  visibleVendorIds: Set<string>;
   onCellClick: (vendorId: string, requirementId: string) => void;
 }
 
 export function ComparisonMatrix({
   vendorScores,
   requirements,
+  visibleVendorIds,
   onCellClick,
 }: ComparisonMatrixProps) {
   function findScore(vendorScore: VendorScore, requirementId: string): Score | undefined {
@@ -31,6 +34,7 @@ export function ComparisonMatrix({
   function getHighestVendorId(requirementId: string): string | null {
     let best: { vendorId: string; value: number } | null = null;
     for (const vs of vendorScores) {
+      if (!visibleVendorIds.has(vs.vendor.id)) continue;
       const s = findScore(vs, requirementId);
       if (s && (!best || s.score > best.value)) {
         best = { vendorId: vs.vendor.id, value: s.score };
@@ -71,14 +75,22 @@ export function ComparisonMatrix({
               <TableHead className="min-w-[240px] text-xs text-muted-foreground font-medium">
                 Requirement
               </TableHead>
-              {vendorScores.map((vs) => (
-                <TableHead
-                  key={vs.vendor.id}
-                  className="text-center text-xs text-muted-foreground font-medium min-w-[140px]"
-                >
-                  {vs.vendor.name}
-                </TableHead>
-              ))}
+              {vendorScores.map((vs) => {
+                const visible = visibleVendorIds.has(vs.vendor.id);
+                return (
+                  <TableHead
+                    key={vs.vendor.id}
+                    className={cn(
+                      'text-center text-xs text-muted-foreground font-medium transition-all duration-300 overflow-hidden',
+                      visible
+                        ? 'min-w-[140px] max-w-[200px] opacity-100'
+                        : 'min-w-0 max-w-0 p-0 opacity-0'
+                    )}
+                  >
+                    {visible && vs.vendor.name}
+                  </TableHead>
+                );
+              })}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -101,21 +113,28 @@ export function ComparisonMatrix({
                     </div>
                   </TableCell>
                   {vendorScores.map((vs) => {
+                    const visible = visibleVendorIds.has(vs.vendor.id);
                     const score = findScore(vs, req.id);
-                    if (!score) {
-                      return (
-                        <TableCell key={vs.vendor.id} className="text-center">
-                          <span className="text-xs text-muted-foreground">--</span>
-                        </TableCell>
-                      );
-                    }
+
                     return (
-                      <TableCell key={vs.vendor.id} className="text-center p-1">
-                        <ScoreCell
-                          score={score}
-                          isHighest={highestVendorId === vs.vendor.id}
-                          onClick={() => onCellClick(vs.vendor.id, req.id)}
-                        />
+                      <TableCell
+                        key={vs.vendor.id}
+                        className={cn(
+                          'text-center transition-all duration-300 overflow-hidden',
+                          visible
+                            ? 'min-w-[140px] max-w-[200px] p-1 opacity-100'
+                            : 'min-w-0 max-w-0 p-0 opacity-0'
+                        )}
+                      >
+                        {visible && score ? (
+                          <ScoreCell
+                            score={score}
+                            isHighest={highestVendorId === vs.vendor.id}
+                            onClick={() => onCellClick(vs.vendor.id, req.id)}
+                          />
+                        ) : visible ? (
+                          <span className="text-xs text-muted-foreground">--</span>
+                        ) : null}
                       </TableCell>
                     );
                   })}
