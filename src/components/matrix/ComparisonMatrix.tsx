@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { Filter, SlidersHorizontal, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import type { VendorScore, Requirement, Score, Priority } from '@/lib/scoring/types';
 import {
   Table,
@@ -222,14 +223,24 @@ export function ComparisonMatrix({
                   <TableCell className="align-middle max-w-[320px]">
                     <div className="flex items-center gap-2">
                       <PriorityBadge priority={req.priority} />
-                      <div className="min-w-0" title={req.description}>
-                        <p className="text-sm font-medium text-foreground truncate">
-                          {req.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground truncate">
-                          {req.description}
-                        </p>
-                      </div>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="min-w-0">
+                              <p className="text-sm font-medium text-foreground truncate">
+                                {req.name}
+                              </p>
+                              <p className="text-xs text-muted-foreground truncate">
+                                {req.description}
+                              </p>
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom" className="max-w-xs">
+                            <p className="font-medium">{req.name}</p>
+                            <p className="mt-1 text-xs opacity-80">{req.description}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                   </TableCell>
                   {vendorScores.map((vs) => {
